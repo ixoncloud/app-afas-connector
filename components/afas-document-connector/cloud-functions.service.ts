@@ -60,7 +60,9 @@ export class CloudFunctionsService {
       const response = await fetch(pdfFile.pdf_file);
       const blob = await response.blob();
 
-      this.context.saveAsFile(blob, pdfFile.file_name);
+      // Use the original filename from the file object to match what's shown in the UI
+      // instead of the filename returned by AFAS which may be encoded differently
+      this.context.saveAsFile(blob, file.name);
     } else {
       await this.getFiles();
     }
